@@ -1,68 +1,16 @@
-# Module 5 Stretch: Regularization Explorer (Honors Track)
+Learning Curve Diagnostic Analysis
+1. Bias vs. Variance Diagnosis
+Based on the learning curve plot, the model suffers from High Bias (Underfitting). Both the training and cross-validation scores converge at a very low F1-score (near zero). This indicates that the Logistic Regression model is too simple and is failing to capture the underlying patterns in the telecom churn dataset.
 
-## Project Overview
-This project visualizes how **L1 (Lasso)** and **L2 (Ridge)** regularization influence the coefficients of a Logistic Regression model. I used the telecom churn dataset to demonstrate feature selection and coefficient shrinkage.
+2. Impact of More Data
+Collecting more data will not likely improve validation performance. We can see the curves have already plateaued (flattened out). Even as the training set size increases toward 1200 samples, the performance remains stagnant. This is a classic sign that the model's capacity is the bottleneck, not the amount of data.
 
-## Regularization Path Visualization
-![Regularization Plot](regularization_plot.png)
+3. Model Complexity
+Increasing model complexity (e.g., adding polynomial features, interaction terms, or switching to a more flexible model like Random Forest or Gradient Boosting) would likely help. Since the current linear model is underfitting, a more complex architecture is needed to represent the non-linear relationships in the data.
 
----
+4. Recommended Next Steps
+Feature Engineering: Create new features or interaction terms to provide more signal to the model.
 
-## Project Analysis & Interpretation
+Model Selection: Move beyond basic Logistic Regression to more robust algorithms.
 
-Based on the generated plots, here is the technical breakdown:
-
-### 1. L1 Regularization (Lasso) - Feature Selection
-* **Observation:** In the top plot, as we move to the left (stronger regularization), most coefficients drop to **exactly zero**. 
-* **Key Finding:** Features like `total_charges`, `num_support_calls`, and `has_dependents` are eliminated early. The most robust feature that resists zeroing out the longest is `contract_type_Two_year`, followed by `monthly_charges`.
-* **Behavior:** L1 creates a **sparse model**, effectively performing automatic feature selection.
-
-### 2. L2 Regularization (Ridge) - Coefficient Shrinkage
-* **Observation:** In the bottom plot, all coefficients shrink in magnitude as regularization increases, but they **never reach zero**. 
-* **Key Finding:** Even with very strong regularization, every feature remains in the model with a small weight. This helps handle multicollinearity by distributing weights across correlated features.
-
----
-
-## Final Recommendation
-I recommend using **L1 Regularization (Lasso)** for this dataset.
-
-**Why?**
-1. **Model Simplicity:** The plot shows that only a few features (like Contract Type and Monthly Charges) carry significant predictive weight.
-2. **Interpretability:** By zeroing out noise-heavy features (like `gender` or certain `payment_methods`), L1 provides a clear, actionable list of churn drivers for the business.
-3. **Robustness:** Eliminating redundant features reduces the risk of overfitting in production.
-
----
-# Module 5 Stretch: Regularization Explorer (Honors Track)
-
-## Project Overview
-This project visualizes how **L1 (Lasso)** and **L2 (Ridge)** regularization influence the coefficients of a Logistic Regression model. I used the telecom churn dataset to demonstrate feature selection and coefficient shrinkage.
-
-## Regularization Path Visualization
-![Regularization Plot](regularization_plot.png)
-
----
-
-## Project Analysis & Interpretation
-
-Based on the generated plots, here is the technical breakdown:
-
-### 1. L1 Regularization (Lasso) - Feature Selection
-* **Observation:** In the top plot, as we move to the left (stronger regularization), most coefficients drop to **exactly zero**. 
-* **Key Finding:** Features like `total_charges`, `num_support_calls`, and `has_dependents` are eliminated early. The most robust feature that resists zeroing out the longest is `contract_type_Two_year`, followed by `monthly_charges`.
-* **Behavior:** L1 creates a **sparse model**, effectively performing automatic feature selection.
-
-### 2. L2 Regularization (Ridge) - Coefficient Shrinkage
-* **Observation:** In the bottom plot, all coefficients shrink in magnitude as regularization increases, but they **never reach zero**. 
-* **Key Finding:** Even with very strong regularization, every feature remains in the model with a small weight. This helps handle multicollinearity by distributing weights across correlated features.
-
----
-
-## Final Recommendation
-I recommend using **L1 Regularization (Lasso)** for this dataset.
-
-**Why?**
-1. **Model Simplicity:** The plot shows that only a few features (like Contract Type and Monthly Charges) carry significant predictive weight.
-2. **Interpretability:** By zeroing out noise-heavy features (like `gender` or certain `payment_methods`), L1 provides a clear, actionable list of churn drivers for the business.
-3. **Robustness:** Eliminating redundant features reduces the risk of overfitting in production.
-
----
+Address Class Imbalance: Since we are using F1-score, exploring techniques like SMOTE or adjusting class weights might help the model better learn the minority (churn) class.
